@@ -17,12 +17,26 @@ import { NotificationModule } from './notifications/notification.module';
 import { SeenStatusModule } from './seen-status/seen-status.module';
 import { AuthModule } from './auth/auth.module';
 import { MiddlewareModule } from './middleware/middleware.module';
+import { EmailVerificationModule } from './email-verification/email-verification.module';
+import { PasswordResetModule } from './password-reset/password-reset.module';
+import { TwoFactorModule } from './two-factor/two-factor.module';
+import { SearchModule } from './search/search.module';
+import { AnalyticsModule } from './analytics/analytics.module';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import { AuditInterceptor } from './common/interceptors/audit.interceptor';
 import { AuditService } from './common/services/audit.service';
 import { RankingService } from './common/services/ranking.service';
 import { CanonicalTransformerService } from './common/services/canonical-transformer.service';
 import { FeedGeneratorWorker } from './common/workers/feed-generator.worker';
+import { EmailService } from './common/services/email.service';
+import { TwoFactorService } from './common/services/two-factor.service';
+import { VirusScanService } from './common/services/virus-scan.service';
+import { ImageOptimizationService } from './common/services/image-optimization.service';
+import { CdnService } from './common/services/cdn.service';
+import { SearchService } from './common/services/search.service';
+import { AnalyticsService } from './common/services/analytics.service';
+import { AbTestingService } from './common/services/ab-testing.service';
+import { FeatureFlagService } from './common/services/feature-flag.service';
 
 @Module({
   imports: [
@@ -41,6 +55,11 @@ import { FeedGeneratorWorker } from './common/workers/feed-generator.worker';
     MatchModule,
     NotificationModule,
     SeenStatusModule,
+    EmailVerificationModule,
+    PasswordResetModule,
+    TwoFactorModule,
+    SearchModule,
+    AnalyticsModule,
   ],
   controllers: [AppController],
   providers: [
@@ -49,6 +68,15 @@ import { FeedGeneratorWorker } from './common/workers/feed-generator.worker';
     RankingService,
     CanonicalTransformerService,
     FeedGeneratorWorker,
+    EmailService,
+    TwoFactorService,
+    VirusScanService,
+    ImageOptimizationService,
+    CdnService,
+    SearchService,
+    AnalyticsService,
+    AbTestingService,
+    FeatureFlagService,
     {
       provide: APP_FILTER,
       useClass: HttpExceptionFilter,

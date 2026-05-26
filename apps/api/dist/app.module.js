@@ -26,12 +26,26 @@ const notification_module_1 = require("./notifications/notification.module");
 const seen_status_module_1 = require("./seen-status/seen-status.module");
 const auth_module_1 = require("./auth/auth.module");
 const middleware_module_1 = require("./middleware/middleware.module");
+const email_verification_module_1 = require("./email-verification/email-verification.module");
+const password_reset_module_1 = require("./password-reset/password-reset.module");
+const two_factor_module_1 = require("./two-factor/two-factor.module");
+const search_module_1 = require("./search/search.module");
+const analytics_module_1 = require("./analytics/analytics.module");
 const http_exception_filter_1 = require("./common/filters/http-exception.filter");
 const audit_interceptor_1 = require("./common/interceptors/audit.interceptor");
 const audit_service_1 = require("./common/services/audit.service");
 const ranking_service_1 = require("./common/services/ranking.service");
 const canonical_transformer_service_1 = require("./common/services/canonical-transformer.service");
 const feed_generator_worker_1 = require("./common/workers/feed-generator.worker");
+const email_service_1 = require("./common/services/email.service");
+const two_factor_service_1 = require("./common/services/two-factor.service");
+const virus_scan_service_1 = require("./common/services/virus-scan.service");
+const image_optimization_service_1 = require("./common/services/image-optimization.service");
+const cdn_service_1 = require("./common/services/cdn.service");
+const search_service_1 = require("./common/services/search.service");
+const analytics_service_1 = require("./common/services/analytics.service");
+const ab_testing_service_1 = require("./common/services/ab-testing.service");
+const feature_flag_service_1 = require("./common/services/feature-flag.service");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -53,6 +67,11 @@ exports.AppModule = AppModule = __decorate([
             match_module_1.MatchModule,
             notification_module_1.NotificationModule,
             seen_status_module_1.SeenStatusModule,
+            email_verification_module_1.EmailVerificationModule,
+            password_reset_module_1.PasswordResetModule,
+            two_factor_module_1.TwoFactorModule,
+            search_module_1.SearchModule,
+            analytics_module_1.AnalyticsModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [
@@ -61,6 +80,15 @@ exports.AppModule = AppModule = __decorate([
             ranking_service_1.RankingService,
             canonical_transformer_service_1.CanonicalTransformerService,
             feed_generator_worker_1.FeedGeneratorWorker,
+            email_service_1.EmailService,
+            two_factor_service_1.TwoFactorService,
+            virus_scan_service_1.VirusScanService,
+            image_optimization_service_1.ImageOptimizationService,
+            cdn_service_1.CdnService,
+            search_service_1.SearchService,
+            analytics_service_1.AnalyticsService,
+            ab_testing_service_1.AbTestingService,
+            feature_flag_service_1.FeatureFlagService,
             {
                 provide: core_1.APP_FILTER,
                 useClass: http_exception_filter_1.HttpExceptionFilter,

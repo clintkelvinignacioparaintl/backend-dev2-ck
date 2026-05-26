@@ -10,8 +10,8 @@ export declare class NotificationController {
         message: string;
         id: string;
         createdAt: Date;
-        type: string;
         userId: string;
+        type: string;
         title: string;
         payload: import("@prisma/client/runtime/library").JsonValue | null;
         isRead: boolean;
@@ -27,8 +27,8 @@ export declare class NotificationController {
         message: string;
         id: string;
         createdAt: Date;
-        type: string;
         userId: string;
+        type: string;
         title: string;
         payload: import("@prisma/client/runtime/library").JsonValue | null;
         isRead: boolean;
@@ -40,8 +40,8 @@ export declare class NotificationController {
         message: string;
         id: string;
         createdAt: Date;
-        type: string;
         userId: string;
+        type: string;
         title: string;
         payload: import("@prisma/client/runtime/library").JsonValue | null;
         isRead: boolean;
@@ -52,8 +52,8 @@ export declare class NotificationController {
         message: string;
         id: string;
         createdAt: Date;
-        type: string;
         userId: string;
+        type: string;
         title: string;
         payload: import("@prisma/client/runtime/library").JsonValue | null;
         isRead: boolean;
@@ -64,8 +64,8 @@ export declare class NotificationController {
         message: string;
         id: string;
         createdAt: Date;
-        type: string;
         userId: string;
+        type: string;
         title: string;
         payload: import("@prisma/client/runtime/library").JsonValue | null;
         isRead: boolean;

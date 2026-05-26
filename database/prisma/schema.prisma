@@ -16,6 +16,12 @@ model User {
   isActive        Boolean           @default(true)
   isBanned        Boolean           @default(false)
   isVerified      Boolean           @default(false)
+  verificationToken String?
+  verificationTokenExpiresAt DateTime?
+  resetPasswordToken String?
+  resetPasswordTokenExpiresAt DateTime?
+  twoFactorEnabled Boolean           @default(false)
+  twoFactorSecret String?
   currentMode     String            @default("PERSONAL")
   profileImageUrl String?
   logoUrl         String?
@@ -112,6 +118,11 @@ model PersonalProfile {
   createdAt   DateTime @default(now())
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([firstName, lastName])
+  @@index([skills])
+  @@index([interests])
+  @@index([location])
 }
 
 model BusinessProfile {
@@ -126,6 +137,10 @@ model BusinessProfile {
   createdAt   DateTime @default(now())
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([businessName])
+  @@index([industry])
+  @@index([location])
 }
 
 model AuditLog {

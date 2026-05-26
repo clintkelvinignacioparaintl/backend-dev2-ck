@@ -28,14 +28,20 @@ export declare class FilteringController {
                 teamSize: number | null;
             } | null;
         } & {
+            name: string | null;
             id: string;
             email: string;
             username: string;
             password: string;
-            name: string | null;
             isActive: boolean;
             isBanned: boolean;
             isVerified: boolean;
+            verificationToken: string | null;
+            verificationTokenExpiresAt: Date | null;
+            resetPasswordToken: string | null;
+            resetPasswordTokenExpiresAt: Date | null;
+            twoFactorEnabled: boolean;
+            twoFactorSecret: string | null;
             currentMode: string;
             profileImageUrl: string | null;
             logoUrl: string | null;
@@ -75,14 +81,20 @@ export declare class FilteringController {
                     teamSize: number | null;
                 } | null;
             } & {
+                name: string | null;
                 id: string;
                 email: string;
                 username: string;
                 password: string;
-                name: string | null;
                 isActive: boolean;
                 isBanned: boolean;
                 isVerified: boolean;
+                verificationToken: string | null;
+                verificationTokenExpiresAt: Date | null;
+                resetPasswordToken: string | null;
+                resetPasswordTokenExpiresAt: Date | null;
+                twoFactorEnabled: boolean;
+                twoFactorSecret: string | null;
                 currentMode: string;
                 profileImageUrl: string | null;
                 logoUrl: string | null;
@@ -113,14 +125,20 @@ export declare class FilteringController {
                     teamSize: number | null;
                 } | null;
             } & {
+                name: string | null;
                 id: string;
                 email: string;
                 username: string;
                 password: string;
-                name: string | null;
                 isActive: boolean;
                 isBanned: boolean;
                 isVerified: boolean;
+                verificationToken: string | null;
+                verificationTokenExpiresAt: Date | null;
+                resetPasswordToken: string | null;
+                resetPasswordTokenExpiresAt: Date | null;
+                twoFactorEnabled: boolean;
+                twoFactorSecret: string | null;
                 currentMode: string;
                 profileImageUrl: string | null;
                 logoUrl: string | null;
@@ -154,10 +172,10 @@ export declare class FilteringController {
         } & {
             id: string;
             createdAt: Date;
+            userId: string;
             content: string;
             type: string;
             isSeen: boolean;
-            userId: string;
             conversationId: string;
             senderId: string;
         })[];
