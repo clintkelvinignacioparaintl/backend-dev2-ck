@@ -25,16 +25,16 @@ export class MatchService {
     const [aSwiped, bSwiped] = await Promise.all([
       this.prisma.swipe.findFirst({
         where: {
-          senderId: userAId,
-          receiverId: userBId,
-          type: 'RIGHT',
+          userId: userAId,
+          targetId: userBId,
+          isLike: true,
         },
       }),
       this.prisma.swipe.findFirst({
         where: {
-          senderId: userBId,
-          receiverId: userAId,
-          type: 'RIGHT',
+          userId: userBId,
+          targetId: userAId,
+          isLike: true,
         },
       }),
     ]);

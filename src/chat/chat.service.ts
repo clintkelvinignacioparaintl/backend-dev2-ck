@@ -18,7 +18,7 @@ export class ChatService {
   }
 
   async getConversationByMatchId(matchId: string) {
-    return this.prisma.conversation.findUnique({
+    return this.prisma.conversation.findFirst({
       where: { matchId },
       include: {
         messages: {
@@ -73,6 +73,7 @@ export class ChatService {
       data: {
         conversationId,
         senderId,
+        userId: senderId,
         content,
         type,
       },

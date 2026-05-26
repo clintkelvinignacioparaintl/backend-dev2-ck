@@ -29,6 +29,8 @@ export class NotificationService {
       data: {
         userId: dto.userId,
         type: dto.type,
+        title: dto.payload?.title || 'Notification',
+        message: dto.payload?.message || '',
         payload: dto.payload,
         isRead: dto.isRead || false,
       },

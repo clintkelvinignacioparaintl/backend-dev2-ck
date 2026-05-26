@@ -1,0 +1,128 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              String            @id @default(cuid())
+  email           String            @unique
+  username        String            @unique
+  password        String
+  name            String?
+  isActive        Boolean           @default(true)
+  isBanned        Boolean           @default(false)
+  isVerified      Boolean           @default(false)
+  currentMode     String            @default("PERSONAL")
+  profileImageUrl String?
+  logoUrl         String?
+  createdAt       DateTime          @default(now())
+
+  personalProfile PersonalProfile?
+  businessProfile BusinessProfile?
+  messages        Message[]
+  sentMessages    Message[]        @relation("SentMessages")
+  notifications   Notification[]
+  matchesAsUserOne Match[]         @relation("UserOneMatches")
+  matchesAsUserTwo Match[]         @relation("UserTwoMatches")
+  swipesAsUserOne  Swipe[]         @relation("UserOneSwipes")
+  swipesAsUserTwo  Swipe[]         @relation("UserTwoSwipes")
+}
+
+model Message {
+  id             String       @id @default(cuid())
+  content        String
+  type           String       @default("TEXT")
+  isSeen         Boolean      @default(false)
+  createdAt      DateTime     @default(now())
+
+  userId         String
+  user           User         @relation(fields: [userId], references: [id])
+  conversationId String
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  senderId       String
+  sender         User         @relation("SentMessages", fields: [senderId], references: [id])
+}
+
+model Match {
+  id        String        @id @default(cuid())
+  userOneId String
+  userTwoId String
+  createdAt DateTime      @default(now())
+
+  userOne        User           @relation("UserOneMatches", fields: [userOneId], references: [id], onDelete: Cascade)
+  userTwo        User           @relation("UserTwoMatches", fields: [userTwoId], references: [id], onDelete: Cascade)
+  conversations   Conversation[]
+  swipes          Swipe[]        @relation("Swipes")
+
+  @@unique([userOneId, userTwoId])
+}
+
+model Swipe {
+  id        String   @id @default(cuid())
+  userId    String
+  targetId  String
+  matchId   String?
+  isLike    Boolean
+  createdAt DateTime @default(now())
+
+  user   User    @relation("UserOneSwipes", fields: [userId], references: [id], onDelete: Cascade)
+  target User    @relation("UserTwoSwipes", fields: [targetId], references: [id], onDelete: Cascade)
+  match  Match?  @relation("Swipes", fields: [matchId], references: [id], onDelete: SetNull)
+
+  @@unique([userId, targetId])
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  type      String
+  title     String
+  message   String
+  payload   Json?
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Conversation {
+  id        String    @id @default(cuid())
+  matchId   String
+  createdAt DateTime  @default(now())
+
+  match     Match     @relation(fields: [matchId], references: [id], onDelete: Cascade)
+  messages  Message[]
+}
+
+model PersonalProfile {
+  id          String   @id @default(cuid())
+  userId      String   @unique
+  firstName   String?
+  lastName    String?
+  bio         String?
+  skills      String[]
+  interests   String[]
+  location    String?
+  resumeUrl   String?
+  createdAt   DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model BusinessProfile {
+  id          String   @id @default(cuid())
+  userId      String   @unique
+  businessName String
+  industry    String?
+  services    String[]
+  lookingFor  String[]
+  location    String?
+  teamSize    Int?
+  createdAt   DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
