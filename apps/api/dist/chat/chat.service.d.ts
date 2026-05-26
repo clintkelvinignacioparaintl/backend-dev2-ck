@@ -13,10 +13,10 @@ export declare class ChatService {
         messages: {
             id: string;
             createdAt: Date;
-            userId: string;
             content: string;
             type: string;
             isSeen: boolean;
+            userId: string;
             conversationId: string;
             senderId: string;
         }[];
@@ -36,10 +36,10 @@ export declare class ChatService {
         messages: {
             id: string;
             createdAt: Date;
-            userId: string;
             content: string;
             type: string;
             isSeen: boolean;
+            userId: string;
             conversationId: string;
             senderId: string;
         }[];
@@ -70,10 +70,10 @@ export declare class ChatService {
     } & {
         id: string;
         createdAt: Date;
-        userId: string;
         content: string;
         type: string;
         isSeen: boolean;
+        userId: string;
         conversationId: string;
         senderId: string;
     })[]>;
@@ -91,20 +91,20 @@ export declare class ChatService {
     } & {
         id: string;
         createdAt: Date;
-        userId: string;
         content: string;
         type: string;
         isSeen: boolean;
+        userId: string;
         conversationId: string;
         senderId: string;
     }>;
     markMessageAsSeen(messageId: string, userId: string): Promise<{
         id: string;
         createdAt: Date;
-        userId: string;
         content: string;
         type: string;
         isSeen: boolean;
+        userId: string;
         conversationId: string;
         senderId: string;
     }>;
@@ -117,10 +117,10 @@ export declare class ChatService {
     deleteMessage(messageId: string, userId: string): Promise<{
         id: string;
         createdAt: Date;
-        userId: string;
         content: string;
         type: string;
         isSeen: boolean;
+        userId: string;
         conversationId: string;
         senderId: string;
     }>;

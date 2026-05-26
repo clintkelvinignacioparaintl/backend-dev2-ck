@@ -127,3 +127,19 @@ model BusinessProfile {
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
+
+model AuditLog {
+  id           String   @id @default(cuid())
+  userId       String
+  action       String
+  resourceType String?
+  resourceId   String?
+  metadata     Json?
+  ipAddress    String?
+  userAgent    String?
+  timestamp    DateTime @default(now())
+
+  @@index([userId])
+  @@index([action])
+  @@index([timestamp])
+}

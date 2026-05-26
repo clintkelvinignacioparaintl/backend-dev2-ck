@@ -14,61 +14,17 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthController = void 0;
 const common_1 = require("@nestjs/common");
-const jwt_1 = require("@nestjs/jwt");
-const prisma_service_1 = require("../prisma/prisma.service");
+const auth_service_1 = require("./auth.service");
 const auth_dto_1 = require("./dto/auth.dto");
-const bcrypt = require("bcrypt");
 let AuthController = class AuthController {
-    constructor(prisma, jwtService) {
-        this.prisma = prisma;
-        this.jwtService = jwtService;
+    constructor(authService) {
+        this.authService = authService;
     }
     async register(registerDto) {
-        const hashedPassword = await bcrypt.hash(registerDto.password, 10);
-        const user = await this.prisma.user.create({
-            data: {
-                email: registerDto.email,
-                password: hashedPassword,
-                username: registerDto.username,
-                currentMode: registerDto.accountType,
-            },
-        });
-        const token = this.jwtService.sign({
-            sub: user.id,
-            email: user.email,
-        });
-        return {
-            user: {
-                id: user.id,
-                email: user.email,
-                username: user.username,
-            },
-            token,
-        };
+        return this.authService.register(registerDto);
     }
     async login(loginDto) {
-        const user = await this.prisma.user.findUnique({
-            where: { email: loginDto.email },
-        });
-        if (!user) {
-            return { error: 'Invalid credentials' };
-        }
-        const isPasswordValid = await bcrypt.compare(loginDto.password, user.password);
-        if (!isPasswordValid) {
-            return { error: 'Invalid credentials' };
-        }
-        const token = this.jwtService.sign({
-            sub: user.id,
-            email: user.email,
-        });
-        return {
-            user: {
-                id: user.id,
-                email: user.email,
-                username: user.username,
-            },
-            token,
-        };
+        return this.authService.login(loginDto);
     }
 };
 exports.AuthController = AuthController;
@@ -89,7 +45,6 @@ __decorate([
 ], AuthController.prototype, "login", null);
 exports.AuthController = AuthController = __decorate([
     (0, common_1.Controller)('auth'),
-    __metadata("design:paramtypes", [prisma_service_1.PrismaService,
-        jwt_1.JwtService])
+    __metadata("design:paramtypes", [auth_service_1.AuthService])
 ], AuthController);
 //# sourceMappingURL=auth.controller.js.map

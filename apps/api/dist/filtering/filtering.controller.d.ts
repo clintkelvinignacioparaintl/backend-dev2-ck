@@ -154,10 +154,10 @@ export declare class FilteringController {
         } & {
             id: string;
             createdAt: Date;
-            userId: string;
             content: string;
             type: string;
             isSeen: boolean;
+            userId: string;
             conversationId: string;
             senderId: string;
         })[];

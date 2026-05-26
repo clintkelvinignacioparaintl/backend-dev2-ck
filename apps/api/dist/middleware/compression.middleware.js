@@ -11,11 +11,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CompressionMiddleware = void 0;
 const common_1 = require("@nestjs/common");
-const compression_1 = require("compression");
+const compression = require("compression");
 let CompressionMiddleware = class CompressionMiddleware {
     constructor() {
         const enabled = process.env.COMPRESSION_ENABLED !== 'false';
-        this.middleware = enabled ? (0, compression_1.default)() : (req, res, next) => next();
+        this.middleware = enabled ? compression() : (req, res, next) => next();
     }
     use(req, res, next) {
         this.middleware(req, res, next);
