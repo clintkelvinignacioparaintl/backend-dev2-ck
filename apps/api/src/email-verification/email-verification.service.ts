@@ -1,4 +1,5 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { PrismaService } from '../prisma/prisma.service';
 import { EmailService } from '../common/services/email.service';
 
@@ -7,6 +8,7 @@ export class EmailVerificationService {
   constructor(
     private prisma: PrismaService,
     private emailService: EmailService,
+    private configService: ConfigService,
   ) {}
 
   async sendVerificationEmail(email: string) {
@@ -23,7 +25,8 @@ export class EmailVerificationService {
     }
 
     const verificationToken = this.generateToken();
-    const verificationTokenExpiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000);
+    const expirationHours = parseInt(this.configService.get('EMAIL_VERIFICATION_EXPIRATION_HOURS') || '24', 10);
+    const verificationTokenExpiresAt = new Date(Date.now() + expirationHours * 60 * 60 * 1000);
 
     await this.prisma.user.update({
       where: { id: user.id },

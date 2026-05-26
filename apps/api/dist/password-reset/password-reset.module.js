@@ -12,12 +12,13 @@ const password_reset_controller_1 = require("./password-reset.controller");
 const password_reset_service_1 = require("./password-reset.service");
 const prisma_module_1 = require("../prisma/prisma.module");
 const email_service_1 = require("../common/services/email.service");
+const config_1 = require("@nestjs/config");
 let PasswordResetModule = class PasswordResetModule {
 };
 exports.PasswordResetModule = PasswordResetModule;
 exports.PasswordResetModule = PasswordResetModule = __decorate([
     (0, common_1.Module)({
-        imports: [prisma_module_1.PrismaModule],
+        imports: [prisma_module_1.PrismaModule, config_1.ConfigModule],
         controllers: [password_reset_controller_1.PasswordResetController],
         providers: [password_reset_service_1.PasswordResetService, email_service_1.EmailService],
         exports: [password_reset_service_1.PasswordResetService],

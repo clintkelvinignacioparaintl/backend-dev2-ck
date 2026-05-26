@@ -11,13 +11,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PasswordResetService = void 0;
 const common_1 = require("@nestjs/common");
+const config_1 = require("@nestjs/config");
 const prisma_service_1 = require("../prisma/prisma.service");
 const email_service_1 = require("../common/services/email.service");
 const bcrypt = require("bcrypt");
 let PasswordResetService = class PasswordResetService {
-    constructor(prisma, emailService) {
+    constructor(prisma, emailService, configService) {
         this.prisma = prisma;
         this.emailService = emailService;
+        this.configService = configService;
     }
     async requestPasswordReset(email) {
         const user = await this.prisma.user.findUnique({
@@ -27,7 +29,8 @@ let PasswordResetService = class PasswordResetService {
             throw new common_1.BadRequestException('User not found');
         }
         const resetToken = this.generateToken();
-        const resetTokenExpiresAt = new Date(Date.now() + 60 * 60 * 1000);
+        const expirationHours = parseInt(this.configService.get('PASSWORD_RESET_EXPIRATION_HOURS') || '1', 10);
+        const resetTokenExpiresAt = new Date(Date.now() + expirationHours * 60 * 60 * 1000);
         await this.prisma.user.update({
             where: { id: user.id },
             data: {
@@ -50,7 +53,8 @@ let PasswordResetService = class PasswordResetService {
         if (!user) {
             throw new common_1.BadRequestException('Invalid or expired reset token');
         }
-        const hashedPassword = await bcrypt.hash(newPassword, 10);
+        const saltRounds = parseInt(this.configService.get('BCRYPT_SALT_ROUNDS') || '10', 10);
+        const hashedPassword = await bcrypt.hash(newPassword, saltRounds);
         await this.prisma.user.update({
             where: { id: user.id },
             data: {
@@ -69,6 +73,7 @@ exports.PasswordResetService = PasswordResetService;
 exports.PasswordResetService = PasswordResetService = __decorate([
     (0, common_1.Injectable)(),
     __metadata("design:paramtypes", [prisma_service_1.PrismaService,
-        email_service_1.EmailService])
+        email_service_1.EmailService,
+        config_1.ConfigService])
 ], PasswordResetService);
 //# sourceMappingURL=password-reset.service.js.map

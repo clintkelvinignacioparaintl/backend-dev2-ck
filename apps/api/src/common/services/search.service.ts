@@ -1,11 +1,18 @@
 import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { PrismaService } from '../../prisma/prisma.service';
 
 @Injectable()
 export class SearchService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private configService: ConfigService,
+  ) {}
 
-  async searchPersonalProfiles(query: string, limit: number = 20) {
+  async searchPersonalProfiles(query: string, limit?: number) {
+    const defaultLimit = parseInt(this.configService.get('DEFAULT_SEARCH_LIMIT') || '20', 10);
+    const finalLimit = limit || defaultLimit;
+
     const profiles = await this.prisma.personalProfile.findMany({
       where: {
         OR: [
@@ -17,7 +24,7 @@ export class SearchService {
           { interests: { has: query } },
         ],
       },
-      take: limit,
+      take: finalLimit,
       include: {
         user: {
           select: {
@@ -33,7 +40,10 @@ export class SearchService {
     return profiles;
   }
 
-  async searchBusinessProfiles(query: string, limit: number = 20) {
+  async searchBusinessProfiles(query: string, limit?: number) {
+    const defaultLimit = parseInt(this.configService.get('DEFAULT_SEARCH_LIMIT') || '20', 10);
+    const finalLimit = limit || defaultLimit;
+
     const profiles = await this.prisma.businessProfile.findMany({
       where: {
         OR: [
@@ -44,7 +54,7 @@ export class SearchService {
           { lookingFor: { has: query } },
         ],
       },
-      take: limit,
+      take: finalLimit,
       include: {
         user: {
           select: {
@@ -60,7 +70,10 @@ export class SearchService {
     return profiles;
   }
 
-  async searchUsers(query: string, limit: number = 20) {
+  async searchUsers(query: string, limit?: number) {
+    const defaultLimit = parseInt(this.configService.get('DEFAULT_SEARCH_LIMIT') || '20', 10);
+    const finalLimit = limit || defaultLimit;
+
     const users = await this.prisma.user.findMany({
       where: {
         OR: [
@@ -71,7 +84,7 @@ export class SearchService {
         isActive: true,
         isBanned: false,
       },
-      take: limit,
+      take: finalLimit,
       select: {
         id: true,
         username: true,
@@ -86,18 +99,20 @@ export class SearchService {
     return users;
   }
 
-  async fullTextSearch(query: string, limit: number = 20) {
-    // PostgreSQL full-text search using tsvector
+  async fullTextSearch(query: string, limit?: number) {
+    const defaultLimit = parseInt(this.configService.get('DEFAULT_SEARCH_LIMIT') || '20', 10);
+    const finalLimit = limit || defaultLimit;
+
     const personalProfiles = await this.prisma.$queryRaw`
       SELECT * FROM "PersonalProfile"
       WHERE to_tsvector('english', COALESCE("firstName", '') || ' ' || COALESCE("lastName", '') || ' ' || COALESCE("bio", '') || ' ' || COALESCE("location", '')) @@ plainto_tsquery('english', ${query})
-      LIMIT ${limit}
+      LIMIT ${finalLimit}
     `;
 
     const businessProfiles = await this.prisma.$queryRaw`
       SELECT * FROM "BusinessProfile"
       WHERE to_tsvector('english', COALESCE("businessName", '') || ' ' || COALESCE("industry", '') || ' ' || COALESCE("location", '')) @@ plainto_tsquery('english', ${query})
-      LIMIT ${limit}
+      LIMIT ${finalLimit}
     `;
 
     return {

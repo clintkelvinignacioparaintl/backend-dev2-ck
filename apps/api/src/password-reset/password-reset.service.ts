@@ -1,4 +1,5 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { PrismaService } from '../prisma/prisma.service';
 import { EmailService } from '../common/services/email.service';
 import * as bcrypt from 'bcrypt';
@@ -8,6 +9,7 @@ export class PasswordResetService {
   constructor(
     private prisma: PrismaService,
     private emailService: EmailService,
+    private configService: ConfigService,
   ) {}
 
   async requestPasswordReset(email: string) {
@@ -20,7 +22,8 @@ export class PasswordResetService {
     }
 
     const resetToken = this.generateToken();
-    const resetTokenExpiresAt = new Date(Date.now() + 60 * 60 * 1000);
+    const expirationHours = parseInt(this.configService.get('PASSWORD_RESET_EXPIRATION_HOURS') || '1', 10);
+    const resetTokenExpiresAt = new Date(Date.now() + expirationHours * 60 * 60 * 1000);
 
     await this.prisma.user.update({
       where: { id: user.id },
@@ -49,7 +52,8 @@ export class PasswordResetService {
       throw new BadRequestException('Invalid or expired reset token');
     }
 
-    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    const saltRounds = parseInt(this.configService.get('BCRYPT_SALT_ROUNDS') || '10', 10);
+    const hashedPassword = await bcrypt.hash(newPassword, saltRounds);
 
     await this.prisma.user.update({
       where: { id: user.id },

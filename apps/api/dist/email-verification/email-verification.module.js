@@ -12,12 +12,13 @@ const email_verification_controller_1 = require("./email-verification.controller
 const email_verification_service_1 = require("./email-verification.service");
 const prisma_module_1 = require("../prisma/prisma.module");
 const email_service_1 = require("../common/services/email.service");
+const config_1 = require("@nestjs/config");
 let EmailVerificationModule = class EmailVerificationModule {
 };
 exports.EmailVerificationModule = EmailVerificationModule;
 exports.EmailVerificationModule = EmailVerificationModule = __decorate([
     (0, common_1.Module)({
-        imports: [prisma_module_1.PrismaModule],
+        imports: [prisma_module_1.PrismaModule, config_1.ConfigModule],
         controllers: [email_verification_controller_1.EmailVerificationController],
         providers: [email_verification_service_1.EmailVerificationService, email_service_1.EmailService],
         exports: [email_verification_service_1.EmailVerificationService],

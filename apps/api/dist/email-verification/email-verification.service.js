@@ -11,12 +11,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.EmailVerificationService = void 0;
 const common_1 = require("@nestjs/common");
+const config_1 = require("@nestjs/config");
 const prisma_service_1 = require("../prisma/prisma.service");
 const email_service_1 = require("../common/services/email.service");
 let EmailVerificationService = class EmailVerificationService {
-    constructor(prisma, emailService) {
+    constructor(prisma, emailService, configService) {
         this.prisma = prisma;
         this.emailService = emailService;
+        this.configService = configService;
     }
     async sendVerificationEmail(email) {
         const user = await this.prisma.user.findUnique({
@@ -29,7 +31,8 @@ let EmailVerificationService = class EmailVerificationService {
             throw new common_1.BadRequestException('Email already verified');
         }
         const verificationToken = this.generateToken();
-        const verificationTokenExpiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000);
+        const expirationHours = parseInt(this.configService.get('EMAIL_VERIFICATION_EXPIRATION_HOURS') || '24', 10);
+        const verificationTokenExpiresAt = new Date(Date.now() + expirationHours * 60 * 60 * 1000);
         await this.prisma.user.update({
             where: { id: user.id },
             data: {
@@ -70,6 +73,7 @@ exports.EmailVerificationService = EmailVerificationService;
 exports.EmailVerificationService = EmailVerificationService = __decorate([
     (0, common_1.Injectable)(),
     __metadata("design:paramtypes", [prisma_service_1.PrismaService,
-        email_service_1.EmailService])
+        email_service_1.EmailService,
+        config_1.ConfigService])
 ], EmailVerificationService);
 //# sourceMappingURL=email-verification.service.js.map

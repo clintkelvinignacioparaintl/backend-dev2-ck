@@ -1,7 +1,9 @@
+import { ConfigService } from '@nestjs/config';
 import { PrismaService } from '../../prisma/prisma.service';
 export declare class SearchService {
     private prisma;
-    constructor(prisma: PrismaService);
+    private configService;
+    constructor(prisma: PrismaService, configService: ConfigService);
     searchPersonalProfiles(query: string, limit?: number): Promise<({
         user: {
             id: string;

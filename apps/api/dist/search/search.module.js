@@ -11,12 +11,13 @@ const common_1 = require("@nestjs/common");
 const search_controller_1 = require("./search.controller");
 const search_service_1 = require("../common/services/search.service");
 const prisma_module_1 = require("../prisma/prisma.module");
+const config_1 = require("@nestjs/config");
 let SearchModule = class SearchModule {
 };
 exports.SearchModule = SearchModule;
 exports.SearchModule = SearchModule = __decorate([
     (0, common_1.Module)({
-        imports: [prisma_module_1.PrismaModule],
+        imports: [prisma_module_1.PrismaModule, config_1.ConfigModule],
         controllers: [search_controller_1.SearchController],
         providers: [search_service_1.SearchService],
         exports: [search_service_1.SearchService],
