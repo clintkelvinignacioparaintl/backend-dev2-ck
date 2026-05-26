@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { APP_FILTER } from '@nestjs/core';
+import { APP_FILTER, APP_INTERCEPTOR, APP_GUARD } from '@nestjs/core';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ChatModule } from './chat/chat.module';
@@ -18,6 +18,11 @@ import { SeenStatusModule } from './seen-status/seen-status.module';
 import { AuthModule } from './auth/auth.module';
 import { MiddlewareModule } from './middleware/middleware.module';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
+import { AuditInterceptor } from './common/interceptors/audit.interceptor';
+import { AuditService } from './common/services/audit.service';
+import { RankingService } from './common/services/ranking.service';
+import { CanonicalTransformerService } from './common/services/canonical-transformer.service';
+import { FeedGeneratorWorker } from './common/workers/feed-generator.worker';
 
 @Module({
   imports: [
@@ -40,9 +45,17 @@ import { HttpExceptionFilter } from './common/filters/http-exception.filter';
   controllers: [AppController],
   providers: [
     AppService,
+    AuditService,
+    RankingService,
+    CanonicalTransformerService,
+    FeedGeneratorWorker,
     {
       provide: APP_FILTER,
       useClass: HttpExceptionFilter,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: AuditInterceptor,
     },
   ],
 })

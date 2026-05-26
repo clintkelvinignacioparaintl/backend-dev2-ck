@@ -27,6 +27,11 @@ const seen_status_module_1 = require("./seen-status/seen-status.module");
 const auth_module_1 = require("./auth/auth.module");
 const middleware_module_1 = require("./middleware/middleware.module");
 const http_exception_filter_1 = require("./common/filters/http-exception.filter");
+const audit_interceptor_1 = require("./common/interceptors/audit.interceptor");
+const audit_service_1 = require("./common/services/audit.service");
+const ranking_service_1 = require("./common/services/ranking.service");
+const canonical_transformer_service_1 = require("./common/services/canonical-transformer.service");
+const feed_generator_worker_1 = require("./common/workers/feed-generator.worker");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -52,9 +57,17 @@ exports.AppModule = AppModule = __decorate([
         controllers: [app_controller_1.AppController],
         providers: [
             app_service_1.AppService,
+            audit_service_1.AuditService,
+            ranking_service_1.RankingService,
+            canonical_transformer_service_1.CanonicalTransformerService,
+            feed_generator_worker_1.FeedGeneratorWorker,
             {
                 provide: core_1.APP_FILTER,
                 useClass: http_exception_filter_1.HttpExceptionFilter,
+            },
+            {
+                provide: core_1.APP_INTERCEPTOR,
+                useClass: audit_interceptor_1.AuditInterceptor,
             },
         ],
     })

@@ -11,8 +11,16 @@ const common_1 = require("@nestjs/common");
 const helmet_1 = require("helmet");
 let SecurityMiddleware = class SecurityMiddleware {
     use(req, res, next) {
-        (0, helmet_1.default)({
-            contentSecurityPolicy: {
+        const cspEnabled = process.env.CSP_ENABLED !== 'false';
+        const hstsEnabled = process.env.HSTS_ENABLED !== 'false';
+        const helmetConfig = {
+            noSniff: true,
+            frameguard: { action: 'deny' },
+            xssFilter: true,
+            referrerPolicy: { policy: 'strict-origin-when-cross-origin' },
+        };
+        if (cspEnabled) {
+            helmetConfig.contentSecurityPolicy = {
                 directives: {
                     defaultSrc: ["'self'"],
                     styleSrc: ["'self'", "'unsafe-inline'"],
@@ -24,17 +32,16 @@ let SecurityMiddleware = class SecurityMiddleware {
                     mediaSrc: ["'self'"],
                     frameSrc: ["'none'"],
                 },
-            },
-            hsts: {
-                maxAge: 31536000,
-                includeSubDomains: true,
-                preload: true,
-            },
-            noSniff: true,
-            frameguard: { action: 'deny' },
-            xssFilter: true,
-            referrerPolicy: { policy: 'strict-origin-when-cross-origin' },
-        })(req, res, next);
+            };
+        }
+        if (hstsEnabled) {
+            helmetConfig.hsts = {
+                maxAge: parseInt(process.env.HSTS_MAX_AGE || '31536000', 10),
+                includeSubDomains: process.env.HSTS_INCLUDE_SUBDOMAINS === 'true',
+                preload: process.env.HSTS_PRELOAD === 'true',
+            };
+        }
+        (0, helmet_1.default)(helmetConfig)(req, res, next);
     }
 };
 exports.SecurityMiddleware = SecurityMiddleware;
