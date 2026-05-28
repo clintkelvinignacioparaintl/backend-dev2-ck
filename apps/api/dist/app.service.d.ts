@@ -3,11 +3,12 @@ export declare class AppService {
     private prisma;
     constructor(prisma: PrismaService);
     getHello(): Promise<{
-        name: string | null;
         id: string;
         email: string;
         username: string;
         password: string;
+        name: string | null;
+        fullname: string | null;
         isActive: boolean;
         isBanned: boolean;
         isVerified: boolean;
@@ -20,6 +21,8 @@ export declare class AppService {
         currentMode: string;
         profileImageUrl: string | null;
         logoUrl: string | null;
+        birthDate: Date | null;
+        passwordHash: string | null;
         createdAt: Date;
     }[]>;
 }

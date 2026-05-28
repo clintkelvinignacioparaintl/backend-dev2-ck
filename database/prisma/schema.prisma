@@ -13,6 +13,7 @@ model User {
   username        String            @unique
   password        String
   name            String?
+  fullname        String?
   isActive        Boolean           @default(true)
   isBanned        Boolean           @default(false)
   isVerified      Boolean           @default(false)
@@ -25,6 +26,8 @@ model User {
   currentMode     String            @default("PERSONAL")
   profileImageUrl String?
   logoUrl         String?
+  birthDate       DateTime?
+  passwordHash    String?
   createdAt       DateTime          @default(now())
 
   personalProfile PersonalProfile?
@@ -141,6 +144,17 @@ model BusinessProfile {
   @@index([businessName])
   @@index([industry])
   @@index([location])
+}
+
+model OtpVerification {
+  id        String   @id @default(cuid())
+  email     String
+  otpHash   String
+  expiresAt DateTime
+  verified  Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([email])
 }
 
 model AuditLog {

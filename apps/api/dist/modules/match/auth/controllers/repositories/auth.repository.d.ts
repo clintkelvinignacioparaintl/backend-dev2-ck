@@ -1,0 +1,110 @@
+import { PrismaService } from '../../../../../prisma/prisma.service';
+export declare class AuthRepository {
+    private readonly prisma;
+    constructor(prisma: PrismaService);
+    findByEmail(email: string): Promise<{
+        id: string;
+        email: string;
+        username: string;
+        password: string;
+        name: string | null;
+        fullname: string | null;
+        isActive: boolean;
+        isBanned: boolean;
+        isVerified: boolean;
+        verificationToken: string | null;
+        verificationTokenExpiresAt: Date | null;
+        resetPasswordToken: string | null;
+        resetPasswordTokenExpiresAt: Date | null;
+        twoFactorEnabled: boolean;
+        twoFactorSecret: string | null;
+        currentMode: string;
+        profileImageUrl: string | null;
+        logoUrl: string | null;
+        birthDate: Date | null;
+        passwordHash: string | null;
+        createdAt: Date;
+    } | null>;
+    findByUsername(username: string): Promise<{
+        id: string;
+        email: string;
+        username: string;
+        password: string;
+        name: string | null;
+        fullname: string | null;
+        isActive: boolean;
+        isBanned: boolean;
+        isVerified: boolean;
+        verificationToken: string | null;
+        verificationTokenExpiresAt: Date | null;
+        resetPasswordToken: string | null;
+        resetPasswordTokenExpiresAt: Date | null;
+        twoFactorEnabled: boolean;
+        twoFactorSecret: string | null;
+        currentMode: string;
+        profileImageUrl: string | null;
+        logoUrl: string | null;
+        birthDate: Date | null;
+        passwordHash: string | null;
+        createdAt: Date;
+    } | null>;
+    createUser(data: {
+        fullname: string;
+        username: string;
+        email: string;
+        passwordHash: string;
+        birthDate: Date;
+    }): Promise<{
+        id: string;
+        email: string;
+        username: string;
+        password: string;
+        name: string | null;
+        fullname: string | null;
+        isActive: boolean;
+        isBanned: boolean;
+        isVerified: boolean;
+        verificationToken: string | null;
+        verificationTokenExpiresAt: Date | null;
+        resetPasswordToken: string | null;
+        resetPasswordTokenExpiresAt: Date | null;
+        twoFactorEnabled: boolean;
+        twoFactorSecret: string | null;
+        currentMode: string;
+        profileImageUrl: string | null;
+        logoUrl: string | null;
+        birthDate: Date | null;
+        passwordHash: string | null;
+        createdAt: Date;
+    }>;
+    createOtp(data: {
+        email: string;
+        otpHash: string;
+        expiresAt: Date;
+    }): Promise<{
+        id: string;
+        email: string;
+        createdAt: Date;
+        otpHash: string;
+        expiresAt: Date;
+        verified: boolean;
+    }>;
+    findOtpByEmail(email: string): Promise<{
+        id: string;
+        email: string;
+        createdAt: Date;
+        otpHash: string;
+        expiresAt: Date;
+        verified: boolean;
+    } | null>;
+    markOtpVerified(email: string): Promise<import("@prisma/client").Prisma.BatchPayload>;
+    findVerifiedOtp(email: string): Promise<{
+        id: string;
+        email: string;
+        createdAt: Date;
+        otpHash: string;
+        expiresAt: Date;
+        verified: boolean;
+    } | null>;
+    deleteOtpByEmail(email: string): Promise<import("@prisma/client").Prisma.BatchPayload>;
+}

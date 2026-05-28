@@ -28,11 +28,12 @@ export declare class FilteringController {
                 teamSize: number | null;
             } | null;
         } & {
-            name: string | null;
             id: string;
             email: string;
             username: string;
             password: string;
+            name: string | null;
+            fullname: string | null;
             isActive: boolean;
             isBanned: boolean;
             isVerified: boolean;
@@ -45,6 +46,8 @@ export declare class FilteringController {
             currentMode: string;
             profileImageUrl: string | null;
             logoUrl: string | null;
+            birthDate: Date | null;
+            passwordHash: string | null;
             createdAt: Date;
         })[];
         pagination: {
@@ -81,11 +84,12 @@ export declare class FilteringController {
                     teamSize: number | null;
                 } | null;
             } & {
-                name: string | null;
                 id: string;
                 email: string;
                 username: string;
                 password: string;
+                name: string | null;
+                fullname: string | null;
                 isActive: boolean;
                 isBanned: boolean;
                 isVerified: boolean;
@@ -98,6 +102,8 @@ export declare class FilteringController {
                 currentMode: string;
                 profileImageUrl: string | null;
                 logoUrl: string | null;
+                birthDate: Date | null;
+                passwordHash: string | null;
                 createdAt: Date;
             };
             userTwo: {
@@ -125,11 +131,12 @@ export declare class FilteringController {
                     teamSize: number | null;
                 } | null;
             } & {
-                name: string | null;
                 id: string;
                 email: string;
                 username: string;
                 password: string;
+                name: string | null;
+                fullname: string | null;
                 isActive: boolean;
                 isBanned: boolean;
                 isVerified: boolean;
@@ -142,6 +149,8 @@ export declare class FilteringController {
                 currentMode: string;
                 profileImageUrl: string | null;
                 logoUrl: string | null;
+                birthDate: Date | null;
+                passwordHash: string | null;
                 createdAt: Date;
             };
             conversations: {
@@ -172,10 +181,10 @@ export declare class FilteringController {
         } & {
             id: string;
             createdAt: Date;
-            userId: string;
             content: string;
             type: string;
             isSeen: boolean;
+            userId: string;
             conversationId: string;
             senderId: string;
         })[];

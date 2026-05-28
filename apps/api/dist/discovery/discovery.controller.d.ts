@@ -28,11 +28,12 @@ export declare class DiscoveryController {
                 teamSize: number | null;
             } | null;
         } & {
-            name: string | null;
             id: string;
             email: string;
             username: string;
             password: string;
+            name: string | null;
+            fullname: string | null;
             isActive: boolean;
             isBanned: boolean;
             isVerified: boolean;
@@ -45,6 +46,8 @@ export declare class DiscoveryController {
             currentMode: string;
             profileImageUrl: string | null;
             logoUrl: string | null;
+            birthDate: Date | null;
+            passwordHash: string | null;
             createdAt: Date;
         })[];
         pagination: {
@@ -79,11 +82,12 @@ export declare class DiscoveryController {
             teamSize: number | null;
         } | null;
     } & {
-        name: string | null;
         id: string;
         email: string;
         username: string;
         password: string;
+        name: string | null;
+        fullname: string | null;
         isActive: boolean;
         isBanned: boolean;
         isVerified: boolean;
@@ -96,6 +100,8 @@ export declare class DiscoveryController {
         currentMode: string;
         profileImageUrl: string | null;
         logoUrl: string | null;
+        birthDate: Date | null;
+        passwordHash: string | null;
         createdAt: Date;
     })[]>;
     getRecommendedUsers(req: any, limit?: string): Promise<({
@@ -123,11 +129,12 @@ export declare class DiscoveryController {
             teamSize: number | null;
         } | null;
     } & {
-        name: string | null;
         id: string;
         email: string;
         username: string;
         password: string;
+        name: string | null;
+        fullname: string | null;
         isActive: boolean;
         isBanned: boolean;
         isVerified: boolean;
@@ -140,6 +147,8 @@ export declare class DiscoveryController {
         currentMode: string;
         profileImageUrl: string | null;
         logoUrl: string | null;
+        birthDate: Date | null;
+        passwordHash: string | null;
         createdAt: Date;
     })[]>;
 }

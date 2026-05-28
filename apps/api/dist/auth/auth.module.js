@@ -14,6 +14,8 @@ const jwt_strategy_1 = require("./jwt.strategy");
 const auth_controller_1 = require("./auth.controller");
 const auth_service_1 = require("./auth.service");
 const prisma_module_1 = require("../prisma/prisma.module");
+const email_service_1 = require("../common/services/email.service");
+const two_factor_service_1 = require("../common/services/two-factor.service");
 let AuthModule = class AuthModule {
 };
 exports.AuthModule = AuthModule;
@@ -30,7 +32,7 @@ exports.AuthModule = AuthModule = __decorate([
             }),
         ],
         controllers: [auth_controller_1.AuthController],
-        providers: [jwt_strategy_1.JwtStrategy, auth_service_1.AuthService],
+        providers: [jwt_strategy_1.JwtStrategy, auth_service_1.AuthService, email_service_1.EmailService, two_factor_service_1.TwoFactorService],
         exports: [jwt_1.JwtModule, auth_service_1.AuthService],
     })
 ], AuthModule);

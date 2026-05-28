@@ -38,11 +38,12 @@ export declare class MatchController {
                 teamSize: number | null;
             } | null;
         } & {
-            name: string | null;
+            username: string;
             id: string;
             email: string;
-            username: string;
             password: string;
+            name: string | null;
+            fullname: string | null;
             isActive: boolean;
             isBanned: boolean;
             isVerified: boolean;
@@ -55,6 +56,8 @@ export declare class MatchController {
             currentMode: string;
             profileImageUrl: string | null;
             logoUrl: string | null;
+            birthDate: Date | null;
+            passwordHash: string | null;
             createdAt: Date;
         };
         userTwo: {
@@ -82,11 +85,12 @@ export declare class MatchController {
                 teamSize: number | null;
             } | null;
         } & {
-            name: string | null;
+            username: string;
             id: string;
             email: string;
-            username: string;
             password: string;
+            name: string | null;
+            fullname: string | null;
             isActive: boolean;
             isBanned: boolean;
             isVerified: boolean;
@@ -99,6 +103,8 @@ export declare class MatchController {
             currentMode: string;
             profileImageUrl: string | null;
             logoUrl: string | null;
+            birthDate: Date | null;
+            passwordHash: string | null;
             createdAt: Date;
         };
         conversations: {

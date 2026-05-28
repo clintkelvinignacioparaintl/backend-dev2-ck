@@ -13,3 +13,4 @@ export const Cache = (ttl: number = 300, keyPrefix?: string) => {
 export const CacheTTL = (ttl: number) => SetMetadata(CACHE_TTL_KEY, ttl);
 export const CacheKeyPrefix = (prefix: string) =>
   SetMetadata(CACHE_KEY_PREFIX, prefix);
+

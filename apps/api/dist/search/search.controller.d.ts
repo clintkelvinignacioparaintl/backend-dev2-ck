@@ -11,6 +11,7 @@ export declare class SearchController {
         };
     } & {
         id: string;
+        createdAt: Date;
         userId: string;
         firstName: string | null;
         lastName: string | null;
@@ -19,7 +20,6 @@ export declare class SearchController {
         interests: string[];
         location: string | null;
         resumeUrl: string | null;
-        createdAt: Date;
     })[]>;
     searchBusinessProfiles(query: string, limit?: string): Promise<({
         user: {
@@ -30,9 +30,9 @@ export declare class SearchController {
         };
     } & {
         id: string;
+        createdAt: Date;
         userId: string;
         location: string | null;
-        createdAt: Date;
         businessName: string;
         industry: string | null;
         services: string[];

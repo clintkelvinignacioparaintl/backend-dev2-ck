@@ -10,7 +10,6 @@ import { CvUploadModule } from './upload/cv-upload.module';
 import { DiscoveryModule } from './discovery/discovery.module';
 import { FeedModule } from './feed/feed.module';
 import { FilteringModule } from './filtering/filtering.module';
-import { MatchModule } from './modules/match/match.module';
 import { CacheModule } from './cache/cache.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { NotificationModule } from './notifications/notification.module';
@@ -52,7 +51,6 @@ import { FeatureFlagService } from './common/services/feature-flag.service';
     DiscoveryModule,
     FeedModule,
     FilteringModule,
-    MatchModule,
     NotificationModule,
     SeenStatusModule,
     EmailVerificationModule,

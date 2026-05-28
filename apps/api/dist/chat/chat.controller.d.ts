@@ -13,10 +13,10 @@ export declare class ChatController {
         messages: {
             id: string;
             createdAt: Date;
-            userId: string;
             content: string;
             type: string;
             isSeen: boolean;
+            userId: string;
             conversationId: string;
             senderId: string;
         }[];
@@ -36,10 +36,10 @@ export declare class ChatController {
         messages: {
             id: string;
             createdAt: Date;
-            userId: string;
             content: string;
             type: string;
             isSeen: boolean;
+            userId: string;
             conversationId: string;
             senderId: string;
         }[];
@@ -70,10 +70,10 @@ export declare class ChatController {
     } & {
         id: string;
         createdAt: Date;
-        userId: string;
         content: string;
         type: string;
         isSeen: boolean;
+        userId: string;
         conversationId: string;
         senderId: string;
     })[]>;
@@ -96,20 +96,20 @@ export declare class ChatController {
     } & {
         id: string;
         createdAt: Date;
-        userId: string;
         content: string;
         type: string;
         isSeen: boolean;
+        userId: string;
         conversationId: string;
         senderId: string;
     }>;
     markMessageAsSeen(messageId: string, req: any): Promise<{
         id: string;
         createdAt: Date;
-        userId: string;
         content: string;
         type: string;
         isSeen: boolean;
+        userId: string;
         conversationId: string;
         senderId: string;
     }>;
@@ -122,10 +122,10 @@ export declare class ChatController {
     deleteMessage(messageId: string, req: any): Promise<{
         id: string;
         createdAt: Date;
-        userId: string;
         content: string;
         type: string;
         isSeen: boolean;
+        userId: string;
         conversationId: string;
         senderId: string;
     }>;

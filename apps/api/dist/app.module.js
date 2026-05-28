@@ -19,7 +19,6 @@ const cv_upload_module_1 = require("./upload/cv-upload.module");
 const discovery_module_1 = require("./discovery/discovery.module");
 const feed_module_1 = require("./feed/feed.module");
 const filtering_module_1 = require("./filtering/filtering.module");
-const match_module_1 = require("./modules/match/match.module");
 const cache_module_1 = require("./cache/cache.module");
 const prisma_module_1 = require("./prisma/prisma.module");
 const notification_module_1 = require("./notifications/notification.module");
@@ -64,7 +63,6 @@ exports.AppModule = AppModule = __decorate([
             discovery_module_1.DiscoveryModule,
             feed_module_1.FeedModule,
             filtering_module_1.FilteringModule,
-            match_module_1.MatchModule,
             notification_module_1.NotificationModule,
             seen_status_module_1.SeenStatusModule,
             email_verification_module_1.EmailVerificationModule,
