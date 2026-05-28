@@ -13,10 +13,17 @@ exports.SeenStatusGateway = void 0;
 const websockets_1 = require("@nestjs/websockets");
 const socket_io_1 = require("socket.io");
 const seen_status_service_1 = require("./seen-status.service");
+const event_emitter_1 = require("@nestjs/event-emitter");
 let SeenStatusGateway = class SeenStatusGateway {
     constructor(seenStatusService) {
         this.seenStatusService = seenStatusService;
         this.userSockets = new Map();
+    }
+    handleBroadcastMessageSeen(data) {
+        this.broadcastMessageSeen(data);
+    }
+    handleBroadcastConversationSeen(data) {
+        this.broadcastConversationSeen(data);
     }
     handleConnection(client) {
         const userId = client.handshake.query.userId;
@@ -93,6 +100,18 @@ __decorate([
     (0, websockets_1.WebSocketServer)(),
     __metadata("design:type", socket_io_1.Server)
 ], SeenStatusGateway.prototype, "server", void 0);
+__decorate([
+    (0, event_emitter_1.OnEvent)('gateway.broadcast.message.seen'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], SeenStatusGateway.prototype, "handleBroadcastMessageSeen", null);
+__decorate([
+    (0, event_emitter_1.OnEvent)('gateway.broadcast.conversation.seen'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], SeenStatusGateway.prototype, "handleBroadcastConversationSeen", null);
 __decorate([
     (0, websockets_1.SubscribeMessage)('subscribeToConversation'),
     __metadata("design:type", Function),

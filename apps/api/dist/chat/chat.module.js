@@ -12,13 +12,16 @@ const chat_gateway_1 = require("./chat.gateway");
 const chat_service_1 = require("./chat.service");
 const chat_controller_1 = require("./chat.controller");
 const prisma_module_1 = require("../prisma/prisma.module");
+const seen_status_module_1 = require("../seen-status/seen-status.module");
+const cache_module_1 = require("../cache/cache.module");
+const seen_status_listener_1 = require("../events/seen-status.listener");
 let ChatModule = class ChatModule {
 };
 exports.ChatModule = ChatModule;
 exports.ChatModule = ChatModule = __decorate([
     (0, common_1.Module)({
-        imports: [prisma_module_1.PrismaModule],
-        providers: [chat_gateway_1.ChatGateway, chat_service_1.ChatService],
+        imports: [prisma_module_1.PrismaModule, seen_status_module_1.SeenStatusModule, cache_module_1.CacheModule],
+        providers: [chat_gateway_1.ChatGateway, chat_service_1.ChatService, seen_status_listener_1.SeenStatusListener],
         controllers: [chat_controller_1.ChatController],
         exports: [chat_service_1.ChatService],
     })

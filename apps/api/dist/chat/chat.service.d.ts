@@ -1,7 +1,9 @@
+import { EventEmitter2 } from '@nestjs/event-emitter';
 import { PrismaService } from '../prisma/prisma.service';
 export declare class ChatService {
     private prisma;
-    constructor(prisma: PrismaService);
+    private eventEmitter;
+    constructor(prisma: PrismaService, eventEmitter: EventEmitter2);
     getConversation(conversationId: string): Promise<({
         match: {
             id: string;
@@ -22,8 +24,8 @@ export declare class ChatService {
         }[];
     } & {
         id: string;
-        createdAt: Date;
         matchId: string;
+        createdAt: Date;
     }) | null>;
     getConversationByMatchId(matchId: string): Promise<({
         match: {
@@ -45,8 +47,8 @@ export declare class ChatService {
         }[];
     } & {
         id: string;
-        createdAt: Date;
         matchId: string;
+        createdAt: Date;
     }) | null>;
     createConversation(matchId: string): Promise<{
         match: {
@@ -58,8 +60,8 @@ export declare class ChatService {
         };
     } & {
         id: string;
-        createdAt: Date;
         matchId: string;
+        createdAt: Date;
     }>;
     getMessages(conversationId: string, page?: number, limit?: number): Promise<({
         sender: {
@@ -80,8 +82,8 @@ export declare class ChatService {
     sendMessage(conversationId: string, senderId: string, content: string, type?: 'TEXT' | 'IMAGE' | 'FILE'): Promise<{
         conversation: {
             id: string;
-            createdAt: Date;
             matchId: string;
+            createdAt: Date;
         };
         sender: {
             id: string;

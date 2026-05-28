@@ -22,8 +22,8 @@ export declare class ChatController {
         }[];
     } & {
         id: string;
-        createdAt: Date;
         matchId: string;
+        createdAt: Date;
     }) | null>;
     getConversationByMatchId(matchId: string): Promise<({
         match: {
@@ -45,8 +45,8 @@ export declare class ChatController {
         }[];
     } & {
         id: string;
-        createdAt: Date;
         matchId: string;
+        createdAt: Date;
     }) | null>;
     createConversation(matchId: string): Promise<{
         match: {
@@ -58,8 +58,8 @@ export declare class ChatController {
         };
     } & {
         id: string;
-        createdAt: Date;
         matchId: string;
+        createdAt: Date;
     }>;
     getMessages(conversationId: string, page?: string, limit?: string): Promise<({
         sender: {
@@ -85,8 +85,8 @@ export declare class ChatController {
     }): Promise<{
         conversation: {
             id: string;
-            createdAt: Date;
             matchId: string;
+            createdAt: Date;
         };
         sender: {
             id: string;

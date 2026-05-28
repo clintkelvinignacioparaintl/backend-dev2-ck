@@ -11,10 +11,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ChatService = void 0;
 const common_1 = require("@nestjs/common");
+const event_emitter_1 = require("@nestjs/event-emitter");
 const prisma_service_1 = require("../prisma/prisma.service");
+const seen_status_events_1 = require("../events/seen-status.events");
 let ChatService = class ChatService {
-    constructor(prisma) {
+    constructor(prisma, eventEmitter) {
         this.prisma = prisma;
+        this.eventEmitter = eventEmitter;
     }
     async getConversation(conversationId) {
         return this.prisma.conversation.findUnique({
@@ -97,10 +100,12 @@ let ChatService = class ChatService {
         if (message.senderId === userId) {
             throw new Error('Cannot mark own message as seen');
         }
-        return this.prisma.message.update({
+        const updatedMessage = await this.prisma.message.update({
             where: { id: messageId },
             data: { isSeen: true },
         });
+        this.eventEmitter.emit('message.seen', new seen_status_events_1.MessageSeenEvent(messageId, userId, message.conversationId));
+        return updatedMessage;
     }
     async markConversationAsSeen(conversationId, userId) {
         const conversation = await this.prisma.conversation.findUnique({
@@ -116,6 +121,15 @@ let ChatService = class ChatService {
             conversation.match.userTwoId !== userId) {
             throw new Error('User is not part of this conversation');
         }
+        const unreadMessages = await this.prisma.message.findMany({
+            where: {
+                conversationId,
+                senderId: { not: userId },
+                isSeen: false,
+            },
+            select: { id: true },
+        });
+        const messageIds = unreadMessages.map((msg) => msg.id);
         await this.prisma.message.updateMany({
             where: {
                 conversationId,
@@ -124,6 +138,7 @@ let ChatService = class ChatService {
             },
             data: { isSeen: true },
         });
+        this.eventEmitter.emit('conversation.seen', new seen_status_events_1.ConversationSeenEvent(conversationId, userId, messageIds));
         return { success: true };
     }
     async getUnreadMessageCount(userId) {
@@ -166,6 +181,7 @@ let ChatService = class ChatService {
 exports.ChatService = ChatService;
 exports.ChatService = ChatService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [prisma_service_1.PrismaService])
+    __metadata("design:paramtypes", [prisma_service_1.PrismaService,
+        event_emitter_1.EventEmitter2])
 ], ChatService);
 //# sourceMappingURL=chat.service.js.map

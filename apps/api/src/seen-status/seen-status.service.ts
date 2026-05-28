@@ -69,8 +69,6 @@ export class SeenStatusService implements OnModuleInit, OnModuleDestroy {
     userId: string;
     timestamp: Date;
   }) {
-    // This method can be extended to handle additional logic
-    // The actual broadcasting is handled by the gateway
     console.log('Seen status update received:', data);
   }
 

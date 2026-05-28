@@ -1,9 +1,14 @@
 import { Injectable } from '@nestjs/common';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 import { PrismaService } from '../prisma/prisma.service';
+import { MessageSeenEvent, ConversationSeenEvent } from '../events/seen-status.events';
 
 @Injectable()
 export class ChatService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private eventEmitter: EventEmitter2,
+  ) {}
 
   async getConversation(conversationId: string) {
     return this.prisma.conversation.findUnique({
@@ -103,10 +108,17 @@ export class ChatService {
       throw new Error('Cannot mark own message as seen');
     }
 
-    return this.prisma.message.update({
+    const updatedMessage = await this.prisma.message.update({
       where: { id: messageId },
       data: { isSeen: true },
     });
+
+    this.eventEmitter.emit(
+      'message.seen',
+      new MessageSeenEvent(messageId, userId, message.conversationId),
+    );
+
+    return updatedMessage;
   }
 
   async markConversationAsSeen(conversationId: string, userId: string) {
@@ -128,6 +140,17 @@ export class ChatService {
       throw new Error('User is not part of this conversation');
     }
 
+    const unreadMessages = await this.prisma.message.findMany({
+      where: {
+        conversationId,
+        senderId: { not: userId },
+        isSeen: false,
+      },
+      select: { id: true },
+    });
+
+    const messageIds = unreadMessages.map((msg) => msg.id);
+
     await this.prisma.message.updateMany({
       where: {
         conversationId,
@@ -136,6 +159,11 @@ export class ChatService {
       },
       data: { isSeen: true },
     });
+
+    this.eventEmitter.emit(
+      'conversation.seen',
+      new ConversationSeenEvent(conversationId, userId, messageIds),
+    );
 
     return { success: true };
   }

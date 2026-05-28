@@ -7,6 +7,7 @@ import {
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
 import { SeenStatusService } from './seen-status.service';
+import { OnEvent } from '@nestjs/event-emitter';
 
 @WebSocketGateway({
   cors: {
@@ -23,6 +24,24 @@ export class SeenStatusGateway
   private userSockets: Map<string, Set<string>> = new Map(); // userId -> Set of socketIds
 
   constructor(private readonly seenStatusService: SeenStatusService) {}
+
+  @OnEvent('gateway.broadcast.message.seen')
+  handleBroadcastMessageSeen(data: {
+    messageId: string;
+    userId: string;
+    seenAt: Date;
+  }) {
+    this.broadcastMessageSeen(data);
+  }
+
+  @OnEvent('gateway.broadcast.conversation.seen')
+  handleBroadcastConversationSeen(data: {
+    conversationId: string;
+    userId: string;
+    seenAt: Date;
+  }) {
+    this.broadcastConversationSeen(data);
+  }
 
   handleConnection(client: Socket) {
     const userId = client.handshake.query.userId as string;

@@ -6,6 +6,16 @@ export declare class SeenStatusGateway implements OnGatewayConnection, OnGateway
     server: Server;
     private userSockets;
     constructor(seenStatusService: SeenStatusService);
+    handleBroadcastMessageSeen(data: {
+        messageId: string;
+        userId: string;
+        seenAt: Date;
+    }): void;
+    handleBroadcastConversationSeen(data: {
+        conversationId: string;
+        userId: string;
+        seenAt: Date;
+    }): void;
     handleConnection(client: Socket): void;
     handleDisconnect(client: Socket): void;
     private findUserIdBySocketId;
