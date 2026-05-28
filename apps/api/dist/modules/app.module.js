@@ -9,11 +9,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
 const config_1 = require("@nestjs/config");
-const auth_module_1 = require("./modules/auth/auth.module");
-const prisma_module_1 = require("./modules/prisma/prisma.module");
-const dashboard_module_1 = require("./modules/dashboard/dashboard.module");
-const swipe_module_1 = require("./modules/swipe/swipe.module");
-const discovery_module_1 = require("./modules/discovery/discovery.module");
+const auth_module_1 = require("../auth/auth.module");
+const prisma_module_1 = require("../prisma/prisma.module");
+const discovery_module_1 = require("../discovery/discovery.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -25,8 +23,6 @@ exports.AppModule = AppModule = __decorate([
             }),
             auth_module_1.AuthModule,
             prisma_module_1.PrismaModule,
-            dashboard_module_1.DashboardModule,
-            swipe_module_1.SwipeModule,
             discovery_module_1.DiscoveryModule,
         ],
     })
